@@ -3,32 +3,41 @@
 Parse.initialize("gAyspTr9rHu70rWccCn3VLulVPoOHC1UfRjHLEwv", "QhwV529z16xqxF7IwVfelrtWKLj7fwBydyFVBQ4K");
 
 var tweets = {}; // Holds the tweets
-var newTweets = [];
-var newTweetsQueue = {};
+var newTweets = new Array();
+var newTweetsQueue = new Array();
+var tweetheight = new Array();
 var oldestTweet = 0;
 var bearerToken; // Auth object
 var scrollInterval, settingsInterval, updateInterval; //Update intervals
-var slideinitial = false;
-var slidetime = 2000;
-var pausetime = 5000;
-var tweetshift = 1;
-var totaltweets;
+
+var totaltweets = 0;
 var currenttweet = 1; // Start at 1
 var lasttweet = totaltweets;
-var tweetheight = new Array();
-var totalheight = 0;
-var maxTweets;
+var totalheight = 0; //??????
 var sliderheight = parseInt($('.tweets-container').css('height'));
-var includeRTs;
-var tweetQuery;
-var filterExp;
-var initialLoad = true;
-var explicit = new RegExp("", "g");
+
+var initialLoad = true; // Flag for start loading
+
+var explicit, filterExp = new RegExp("", "g"); // Filtering expression
+
+// KO model
 var tweetViewModel = {
     tweets: ko.observableArray([
         // { tweetBody: "", handle: "", name: "", imageURL: "" } << Format
     ])
 };
+
+// Object containing all settings
+var settingsObj = {
+    slidetime: 2000,
+    pausetime: 5000,
+    tweetshift: 1,
+    slideinitial: false,
+    filterExp: '',
+    maxTweets: 0,
+    includeRTs: false,
+    tweetQuery: ''
+}
 
 // Gets the OAuth token
 function getToken() {
@@ -50,10 +59,10 @@ function getToken() {
 // uses the sinceID in twitter's API when neccessary
 function getTweets() {   
     // Encode the query
-    var fullQuery = "?q=" + encodeURIComponent(tweetQuery);
+    var fullQuery = "?q=" + encodeURIComponent(settingsObj.tweetQuery);
 
     // If we don't want retweets att "-RT to the query
-    if (!includeRTs) {
+    if (!settingsObj.includeRTs) {
         fullQuery += ' -RT';
     }
 
@@ -62,8 +71,8 @@ function getTweets() {
         console.log(tweetViewModel.tweets().length);
         fullQuery += "&since_id=" + tweetViewModel.tweets()[oldestTweet].sinceID;
 
-        //console.log("Searching since ID: " + tweetViewModel.tweets()[oldestTweet].sinceID);
-        //console.log("Query: " + fullQuery);
+        console.log("Searching since ID: " + tweetViewModel.tweets()[oldestTweet].sinceID);
+        console.log("Query: " + fullQuery);
     }
     
     // Search for Tweets if we have a token
@@ -78,6 +87,7 @@ function getTweets() {
                 // Save a local copy either to the initial tweets or the temp newTweets
                 if (tweetViewModel.tweets().length == 0) {
                     tweets = results.statuses;
+                    
                     // Format the tweets now.
                     formatTweets();
                 }
@@ -102,7 +112,7 @@ function getHeights() {
     console.log("Start height");
     for (var i = 1; i <= totaltweets; i++) {
         tweetheight[i] = parseInt($('#t' + i).css('height')) + parseInt($('#t' + i).css('padding-top')) + parseInt($('#t' + i).css('padding-bottom'));
-        if (slideinitial === false) {
+        if (settingsObj.slideinitial === false) {
             sliderheight = 0;
         }
         if (i > 1) {
@@ -110,13 +120,13 @@ function getHeights() {
             $('#t' + i).css('top', tweetheight[i - 1] + totalheight + sliderheight);
             $('#t' + i).animate({
                 'top': tweetheight[i - 1] + totalheight
-            }, slidetime);
+            }, settingsObj.slidetime);
             totalheight += tweetheight[i - 1];
         } else {
             $('#t' + i).css('top', sliderheight);
             $('#t' + i).animate({
                 'top': 0
-            }, slidetime);
+            }, settingsObj.slidetime);
         }
     }
     totalheight += tweetheight[totaltweets];
@@ -127,11 +137,11 @@ function getHeights() {
     // Start the scroll loop the first time you get tweets.
     if (initialLoad) {
         initialLoad = false;
-        scrollInterval = setInterval(scrolltweets, pausetime);
+        
+        scrollInterval = setInterval(scrolltweets, settingsObj.pausetime);
         updateInterval = setInterval(getTweets, 10000);
         settingsInterval = setInterval(getSettings, 20000);
-    }
-    
+    }  
 }
 
 // Explicit language filter
@@ -146,21 +156,22 @@ function languageFilter(tweetText) {
 }
 
 // Places the tweet from the json object
-    // into the knockout observable.
-    // initial Formatting.
+// into the knockout observable.
+// initial Formatting.
 function formatTweets() {
     console.log("Start format");
 
-    oldestTweet = tweets.length - 1;
+    //oldestTweet = tweets.length - 1;
     totaltweets = tweets.length;
     
     lasttweet = totaltweets;
 
     // Format the JSON data into the KO observable start at the oldest Tweets and work forward pushing on the top of the ko
     for (var i = tweets.length - 1; i >= 0 ; i--) {
+        
         // If we don't already have the tweet && make a filter check
-        if ( languageFilter(tweets[i].text)) {
-
+        if (languageFilter(tweets[i].text)) {
+            console.log("herhe");
             var mediaURL = '';
 
             // If the tweet contains a picture show it.
@@ -189,7 +200,7 @@ function formatTweets() {
             tweetViewModel.tweets.unshift(tempTweet); 
 
             // If keep the feed at a limit of 'maxTweets' tweets.
-            while (tweetViewModel.tweets().length > maxTweets) {
+            while (tweetViewModel.tweets().length > settingsObj.maxTweets) {
                 tweetViewModel.tweets.pop();
             }
         }
@@ -201,12 +212,10 @@ function formatTweets() {
 
 // Animation Function
 function scrolltweets() {
-    
     // Replace the oldest tweet     
     insertNewTweet();
-
     var currentheight = 0;
-    for (var i = 0; i < tweetshift; i++) {
+    for (var i = 0; i < settingsObj.tweetshift; i++) {
         var nexttweet = currenttweet + i;
         if (nexttweet > totaltweets) {
             nexttweet -= totaltweets;
@@ -219,7 +228,7 @@ function scrolltweets() {
     for (var i = 1; i <= totaltweets; i++) {
         $('#t' + i).animate({
             'top': (parseInt($('#t' + i).css('top')) - currentheight)
-        }, slidetime, function () {
+        }, settingsObj.slidetime, function () {
 
             var animatedid = parseInt($(this).attr('id').substr(1, 2));
 
@@ -253,8 +262,8 @@ function getSettings() {
         success: function (settings) {
             // The object was retrieved successfully.
             totaltweets = settings.get("maxTweets");
-            includeRTs = settings.get("includeRT");
-            tweetQuery = settings.get("query");
+            settingsObj.includeRTs = settings.get("includeRT");
+            settingsObj.tweetQuery = settings.get("query");
 
             var filterArr = settings.get("filter");
             filterExp = "\\b(";     
@@ -335,6 +344,7 @@ function insertNewTweet() {
         getHeights();
     }
 }
+
 // Apply knockout bindings
 ko.applyBindings(tweetViewModel);
 
