@@ -1,0 +1,15 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>@ViewBag.Title</title>
+        <meta name="viewport" content="width=device-width" />
+        <link href="~/favicon.jpg" rel="shortcut icon" type="image/x-icon" />
+        @Styles.Render("~/Content/mobileCss", "~/Content/css", "~/Content/bootstrap")
+        @Scripts.Render("~/bundles/jquery", "~/bundles/jqueryui", "~/Scripts/knockout", "~/Scripts/bootstrap", "~/Scripts/sammy", "~/Scripts/js")
+        <script src="//www.parsecdn.com/js/parse-1.3.4.min.js"></script>
+    </head>
+    <body>
+        @RenderBody()
+    </body>
+</html>
