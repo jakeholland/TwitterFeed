@@ -34,9 +34,9 @@ var settingsObj = {
     tweetshift: 1,
     slideinitial: false,
     filterExp: '',
-    maxTweets: 0,
+    maxTweets: 15,
     includeRTs: false,
-    tweetQuery: ''
+    tweetQuery: '@edIllinois'
 }
 
 // Gets the OAuth token
@@ -171,7 +171,7 @@ function formatTweets() {
         
         // If we don't already have the tweet && make a filter check
         if (languageFilter(tweets[i].text)) {
-            console.log("herhe");
+            
             var mediaURL = '';
 
             // If the tweet contains a picture show it.
@@ -195,9 +195,11 @@ function formatTweets() {
                 sinceID: tweets[i].id,
                 id: "t" + (i + 1)
             };
-
+            
             // Add the tweet to the feed
-            tweetViewModel.tweets.unshift(tempTweet); 
+            tweetViewModel.tweets.unshift(tempTweet);
+
+            console.log(tweetViewModel.tweets());
 
             // If keep the feed at a limit of 'maxTweets' tweets.
             while (tweetViewModel.tweets().length > settingsObj.maxTweets) {
@@ -262,6 +264,7 @@ function getSettings() {
         success: function (settings) {
             // The object was retrieved successfully.
             totaltweets = settings.get("maxTweets");
+            console.log(settings.get("maxTweets"));
             settingsObj.includeRTs = settings.get("includeRT");
             settingsObj.tweetQuery = settings.get("query");
 

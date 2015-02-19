@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <parameters>
   <parameter name="twitterConsumerKey-Web.config Connection String" description="twitterConsumerKey Connection String used in web.config by the application to access the database." defaultValue="im91Kr1vkFgGmFwqnxx0Xtn8a" tags="SqlConnectionString">
-    <parameterEntry kind="XmlFile" scope="D:\\TwitterFeed\\TwitterFeed\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='twitterConsumerKey']/@connectionString" />
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\jtholla2\\Documents\\Github\\TwitterFeed\\TwitterFeed\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='twitterConsumerKey']/@connectionString" />
   </parameter>
   <parameter name="twitterConsumerSecret-Web.config Connection String" description="twitterConsumerSecret Connection String used in web.config by the application to access the database." defaultValue="ZBVq6Q7NWfM1JvGemZjxEJneU4iwKTllrBAq5FRYku84oB2wPm" tags="SqlConnectionString">
-    <parameterEntry kind="XmlFile" scope="D:\\TwitterFeed\\TwitterFeed\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='twitterConsumerSecret']/@connectionString" />
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\jtholla2\\Documents\\Github\\TwitterFeed\\TwitterFeed\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='twitterConsumerSecret']/@connectionString" />
   </parameter>
   <parameter name="DefaultConnection-Web.config Connection String" description="DefaultConnection Connection String used in web.config by the application to access the database." defaultValue="Data Source=(LocalDb)\v11.0;Initial Catalog=aspnet-TwitterFeed-20131224180351;Integrated Security=SSPI;AttachDBFilename=|DataDirectory|\aspnet-TwitterFeed-20131224180351.mdf" tags="SqlConnectionString">
-    <parameterEntry kind="XmlFile" scope="D:\\TwitterFeed\\TwitterFeed\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DefaultConnection']/@connectionString" />
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\jtholla2\\Documents\\Github\\TwitterFeed\\TwitterFeed\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DefaultConnection']/@connectionString" />
   </parameter>
 </parameters>

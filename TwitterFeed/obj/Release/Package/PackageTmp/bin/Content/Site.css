@@ -39,9 +39,22 @@ body {
 .twitter-article {
     position:absolute;
     top: 0px;
-    width:100%;
+    width:90%;
+}
+.twitter-article.img {
+    max-width: 100%;
 }
 
 .user-image {
     border-radius: 5px;
+}
+
+/* Mobile styles */
+@media (max-width: 480px) {
+    h1 {
+        font-size: 24px;
+    }
+    h2{
+        font-size: 18px;
+    }
 }

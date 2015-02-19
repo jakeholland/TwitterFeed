@@ -1,50 +1,14 @@
 ﻿@{
     ViewBag.Title = "Twitter Feed";
 }
-<!-- Navbar -->
-<!--
-<nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="display:none;">
-        <div class="container">
-            <div class="navbar-header">
-                <button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
 
-                </button> <a class="navbar-brand" href='#tweets'>Tweet Feed</a>
-
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav" data-bind="foreach: views">
-                    <li data-bind="css: {active: $root.selectedView() == $data}">
-                        <a data-bind="text: $data.title,  attr: {href: $data.url}"></a>
-
-                    </li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown"></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
--->
-
-
-<!--
-<div data-bind="withFade: { data: selectedView, transition: ko.transitions.fade }">
-    <div data-bind="template: { name: templateName, data: data }"></div>
-</div>
-
-<script id="tweets" type="text/html">
-    -->
-
-    <!--Instructon-->
-<div style="color:#F47F24; z-index:999;" class="col-md-4" id="goScroll">
+<!--Left Sidebar-->
+<div style="color:#F47F24; z-index:999;" class="col-md-4">
     <h1>See What's Trending at the College of Education</h1>
     <h2>Tweet @@edILLINOIS to see your tweet!</h2>
 </div>
 
+<!--Right Sidebar-->
     <div data-bind="foreach: tweets" class="col-md-8 tweets-container">
         <div class="well twitter-article" data-bind="attr: {'id': id }, updateHeights: {}">
             <div class="media">
@@ -78,4 +42,4 @@
         </form>
     </div>
 </script>
-    -->
+-->
