@@ -6,7 +6,8 @@ var tweets = {}; // Holds the tweets
 var newTweets = new Array();
 var newTweetsQueue = new Array();
 var tweetheight = new Array();
-var oldestTweet = 0;
+var oldestTweet = 1;
+var newestTweetID = 0;
 var bearerToken; // Auth object
 var scrollInterval, settingsInterval, updateInterval; //Update intervals
 
@@ -27,7 +28,8 @@ var tweetViewModel = {
     ])
 };
 
-// Object containing all settings
+    // Object containing all settings
+    // Defaults have been added
 var settingsObj = {
     slidetime: 2000,
     pausetime: 5000,
@@ -68,10 +70,10 @@ function getTweets() {
 
     // If we have gotten tweets dont do anything else, but if we have make sure there's a sinceID query value as to not get dupes.
     if (tweetViewModel.tweets().length > 0) {
-        console.log(tweetViewModel.tweets().length);
-        fullQuery += "&since_id=" + tweetViewModel.tweets()[oldestTweet].sinceID;
+        //console.log(tweetViewModel.tweets().length);
+        fullQuery += "&since_id=" + newestTweetID;
 
-        console.log("Searching since ID: " + tweetViewModel.tweets()[oldestTweet].sinceID);
+        console.log("Searching since ID: " + newestTweetID);
         console.log("Query: " + fullQuery);
     }
     
@@ -140,7 +142,7 @@ function getHeights() {
         
         scrollInterval = setInterval(scrolltweets, settingsObj.pausetime);
         updateInterval = setInterval(getTweets, 10000);
-        settingsInterval = setInterval(getSettings, 20000);
+        settingsInterval = setInterval(getSettings, 15000);
     }  
 }
 
@@ -159,7 +161,7 @@ function languageFilter(tweetText) {
 // into the knockout observable.
 // initial Formatting.
 function formatTweets() {
-    console.log("Start format");
+    //console.log("Start format");
 
     //oldestTweet = tweets.length - 1;
     totaltweets = tweets.length;
@@ -172,7 +174,7 @@ function formatTweets() {
         // If we don't already have the tweet && make a filter check
         if (languageFilter(tweets[i].text)) {
             
-            var mediaURL = '';
+            var mediaURL;
 
             // If the tweet contains a picture show it.
             if (tweets[i].entities.media) {
@@ -184,7 +186,6 @@ function formatTweets() {
                 }
             }
 
-   
             // Format the tweet
             var tempTweet = {
                 tweetBody: tweets[i].text,
@@ -195,11 +196,14 @@ function formatTweets() {
                 sinceID: tweets[i].id,
                 id: "t" + (i + 1)
             };
-            
+            if (tempTweet.sinceID > newestTweetID) {
+                newestTweetID = tempTweet.sinceID;
+            }
+
             // Add the tweet to the feed
             tweetViewModel.tweets.unshift(tempTweet);
 
-            console.log(tweetViewModel.tweets());
+            //console.log(tweetViewModel.tweets());
 
             // If keep the feed at a limit of 'maxTweets' tweets.
             while (tweetViewModel.tweets().length > settingsObj.maxTweets) {
@@ -249,11 +253,9 @@ function scrolltweets() {
                         }
                     }
                 }
-
             }
         });
-    }
-    
+    }  
 }
 
 // Retreive settings from parse.
@@ -264,8 +266,13 @@ function getSettings() {
         success: function (settings) {
             // The object was retrieved successfully.
             totaltweets = settings.get("maxTweets");
-            console.log(settings.get("maxTweets"));
+            //console.log(settings.get("maxTweets"));
             settingsObj.includeRTs = settings.get("includeRT");
+
+            if (settingsObj.tweetQuery != settings.get("query")) {
+                newestTweetID = 0;
+            }
+
             settingsObj.tweetQuery = settings.get("query");
 
             var filterArr = settings.get("filter");
@@ -291,7 +298,7 @@ function getSettings() {
 function updateTweets() {
     newFormattedTweets = {};
     for (var i = newTweets.length - 1; i >= 0 ; i--) {
-        console.log("Updating");
+        //console.log("Updating");
         // If we don't already have the tweet... & make a filter check
         if (languageFilter(newTweets[i].text)) {
             var mediaURL = '';
@@ -316,7 +323,9 @@ function updateTweets() {
                 sinceID: newTweets[i].id,
                 id: "t"
             };
-
+            if (tempTweet.sinceID > newestTweetID) {
+                newestTweetID = tempTweet.sinceID;
+            }
             console.log(tempTweet);
             // Push the new tweets to the "queue"
             // They will be added in as they can
@@ -324,27 +333,37 @@ function updateTweets() {
             newTweetsQueue.push(tempTweet);
         }
     }
-    
+    newTweets = [];
 }
 
 function insertNewTweet() {
     // Check if new tweets are avaliable && the oldest tweet is past the top
-    if (newTweetsQueue.length > 0 && parseInt($('#t' + j).css('top')) < -50) {
+    if (newTweetsQueue.length > 0 && (parseInt($('#t' + oldestTweet).css('top')) < -500000 || parseInt($('#t' + oldestTweet).css('top')) > parseInt($('.tweets-container').css('height')))) {
+        console.log("Insert Location: " + parseInt($('#t' + oldestTweet).css('top')));
+        console.log("Height: " + parseInt($('.tweets-container').css('height')));
 
-        // Shift Tweet into feed, it is removed from the front of the queue
-        tweetViewModel.tweets.splice(oldestTweet, 1, newTweetsQueue.shift());
+        // Format the tweet fully
+        var tempTweet = newTweetsQueue.shift();
+        tempTweet.id += oldestTweet;
 
-        // Calculate the "new" oldest tweet
-        if (oldestTweet == 0) {
-            oldestTweet = tweets.length - 1;
-        }
-        else {
-            oldestTweet--;
-        }
-        console.log("Oldest TweetLoc: " + oldestTweet);
-
+        var koLoc = oldestTweet - 1;
+        // Splice Tweet into feed, it is removed from the front of the queue
+        tweetViewModel.tweets.splice(koLoc, 1, tempTweet);
+        console.log(tweetViewModel.tweets().length);
+        totalheight = 0;
         // Get heights for the scrolling action
         getHeights();
+
+        // Calculate the "new" oldest tweet
+        if (oldestTweet == tweetViewModel.tweets().length -1) {
+            oldestTweet = 1;
+        }
+        else {
+            oldestTweet++;
+        } 
+
+        
+        console.log(oldestTweet);
     }
 }
 
@@ -354,5 +373,4 @@ ko.applyBindings(tweetViewModel);
 // Start the process of getting and animating tweets  
 // Get the settings from Parse before doing anything
 getSettings();
-
 });

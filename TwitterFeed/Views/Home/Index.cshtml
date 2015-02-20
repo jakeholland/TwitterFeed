@@ -21,8 +21,9 @@
                     <br />
                     <h3 data-bind="text: tweetBody"></h3>
                     <!--Intentional error forces KO to work...-->
-                    <h2 data-bind="mediaURL"></h2>
-                    <img data-bind="attr: { src: mediaURL, alt: mediaURL }" />
+                    <!-- ko if: mediaURL -->
+                    <img data-bind="attr: {src: mediaURL}" />
+                    <!-- /ko -->
                 </div>
             </div>
         </div>
