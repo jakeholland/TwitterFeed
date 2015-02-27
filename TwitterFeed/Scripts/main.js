@@ -329,10 +329,6 @@
                     sinceID: newTweets[i].id,
                     id: "t"
                 };
-                /*
-                if (tempTweet.sinceID > newestTweetID) {
-                    newestTweetID = tempTweet.sinceID + 1;
-                }*/
 
                 console.log(tempTweet);
                 // Push the new tweets to the "queue"
@@ -364,7 +360,6 @@
             $('#t' + oldestTweet).css('top', tweetInsertLoc);
 
 
-
             //Get the old height
             var newHeight = parseInt($('#t' + oldestTweet).css('height')) + parseInt($('#t' + oldestTweet).css('padding-top')) + parseInt($('#t' + oldestTweet).css('padding-bottom'));
             //Get the old height
@@ -388,7 +383,11 @@
             }
 
             // Calculate the "new" oldest tweet
-            oldestTweet = (oldestTweet == tweetViewModel.tweets().length - 1) ? 1 : oldestTweet++
+            if (oldestTweet == tweetViewModel.tweets().length - 1) {
+                oldestTweet = 1;
+            } else {
+                oldestTweet++;
+            }
             
             console.log("Oldest Tweet: " + oldestTweet);
         }

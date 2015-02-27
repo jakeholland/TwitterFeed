@@ -3,7 +3,7 @@
 }
 
 body {
-    padding-top: 5px;
+    padding-top: 2.5px;
     background: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(0,60,125,1)), to(rgba(110,139,191,0.6)));
     background: -webkit-linear-gradient(rgba(0,60,125,1), rgba(110,139,191,0.6));
     background: -moz-linear-gradient(rgba(0,60,125,1), rgba(110,139,191,0.6));
