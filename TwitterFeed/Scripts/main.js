@@ -14,7 +14,7 @@
     var totaltweets = 0;
     var currenttweet = 1; // Start at 1
     var lasttweet = totaltweets;
-    var totalheight = 0; //??????
+    var totalheight = 0;
     var sliderheight = parseInt($('.tweets-container').css('height'));
 
     var initialLoad = true; // Flag for start loading
@@ -38,7 +38,7 @@
         filterExp: '',
         maxTweets: 15,
         includeRTs: false,
-        tweetQuery: '@edIllinois'
+        tweetQuery: '@test'
     }
 
     // Gets the OAuth token
@@ -86,6 +86,8 @@
                 data: { bearerToken: bearerToken, parameters: fullQuery },
                 dataType: "JSON",
                 success: function (results) {
+                    // Newest Tweet!
+                    newestTweetID = results.search_metadata.max_id;
                     // Save a local copy either to the initial tweets or the temp newTweets
                     if (tweetViewModel.tweets().length == 0) {
                         tweets = results.statuses;
@@ -123,7 +125,7 @@
             tweetheight[i] = parseInt($('#t' + i).css('height')) + parseInt($('#t' + i).css('padding-top')) + parseInt($('#t' + i).css('padding-bottom'));
 
             // If your at the first one...
-            if (i === 1) {
+            if (i == 1) {
                 $('#t' + i).css('top', sliderheight);
                 $('#t' + i).animate({
                     'top': 0
@@ -199,9 +201,10 @@
                     sinceID: tweets[i].id,
                     id: "t" + (i + 1)
                 };
+                /*
                 if (tempTweet.sinceID > newestTweetID) {
                     newestTweetID = tempTweet.sinceID;
-                }
+                }*/
 
                 // Add the tweet to the feed
                 tweetViewModel.tweets.unshift(tempTweet);
@@ -326,9 +329,11 @@
                     sinceID: newTweets[i].id,
                     id: "t"
                 };
+                /*
                 if (tempTweet.sinceID > newestTweetID) {
-                    newestTweetID = tempTweet.sinceID;
-                }
+                    newestTweetID = tempTweet.sinceID + 1;
+                }*/
+
                 console.log(tempTweet);
                 // Push the new tweets to the "queue"
                 // They will be added in as they can
@@ -340,37 +345,50 @@
     }
 
     function insertNewTweet() {
-        // Check if new tweets are avaliable && the oldest tweet is past the top
-        if (newTweetsQueue.length > 0 && (parseInt($('#t' + oldestTweet).css('top')) < -51 || parseInt($('#t' + oldestTweet).css('top')) > parseInt($('.tweets-container').css('height')))) {
-            console.log("Insert Location: " + parseInt($('#t' + oldestTweet).css('top')));
-            console.log("Height: " + parseInt($('.tweets-container').css('height')));
+        var aboveCheck = parseInt($('#t' + oldestTweet).css('top')) < -51;
+        var belowCheck = parseInt($('#t' + oldestTweet).css('top')) > parseInt($('.tweets-container').css('height'));
 
+        console.log("aboveCheck: ", aboveCheck);
+        console.log("belowCheck: ", belowCheck);
+
+        // Check if new tweets are avaliable && the oldest tweet is out of the viewport
+        if (newTweetsQueue.length > 0 && (aboveCheck || belowCheck)) {
+
+            var tweetInsertLoc = parseInt($('#t' + oldestTweet).css('top'));
             // Format the tweet fully
             var tempTweet = newTweetsQueue.shift();
             tempTweet.id += oldestTweet;
 
             // Splice Tweet into feed, it is removed from the front of the queue
             tweetViewModel.tweets.splice(oldestTweet - 1, 1, tempTweet);
+            $('#t' + oldestTweet).css('top', tweetInsertLoc);
 
-            // Remove old height
-            totalheight -= tweetheight[oldestTweet];
-            // Update the height
-            tweetheight[oldestTweet] = parseInt($('#t' + oldestTweet).css('height')) + parseInt($('#t' + oldestTweet).css('padding-top')) + parseInt($('#t' + oldestTweet).css('padding-bottom'));
-            // Add the new height to totalheight
-            totalheight += tweetheight[oldestTweet];
 
-            // Update the locations of the tweets below the newly added one
+
+            //Get the old height
+            var newHeight = parseInt($('#t' + oldestTweet).css('height')) + parseInt($('#t' + oldestTweet).css('padding-top')) + parseInt($('#t' + oldestTweet).css('padding-bottom'));
+            //Get the old height
+            var oldHeight = tweetheight[oldestTweet];
+            // Calculate the difference
+            var insertLocDiff = newHeight - oldHeight;
+
+            // Add the height difference to the total
+            totalheight += insertLocDiff;
+
+            // Update the locations of the tweets below the newly added one 
             for (var i = 1; i <= totaltweets; i++) {
-                // Height of the current tweet must be below the newly added one.
-                // If it is, then we must move it to the correct loaction.
-                if (tweetheight[oldestTweet] >= tweetheight[i]) {
-                    // TODO: correct locations here.
-                    $('#t' + i).css('top', parseInt($('#t' + oldestTweet).css('height')) + parseInt($('#t' + oldestTweet).css('padding-top')) + parseInt($('#t' + oldestTweet).css('padding-bottom')) + tweetheight[oldestTweet]);
+                // Where is the tweet  located?
+                var tweetLoc = parseInt($('#t' + i).css('top'));
+
+                // Location of the current tweet must be at or greater than the newly added one
+                if (tweetLoc >= tweetInsertLoc) {
+                    var newLoc = tweetLoc + insertLocDiff;
+                    $('#t' + i).css('top', newLoc);
                 }
             }
 
             // Calculate the "new" oldest tweet
-            oldestTweet = (oldestTweet === tweetViewModel.tweets().length - 1) ? 1 : oldestTweet++
+            oldestTweet = (oldestTweet == tweetViewModel.tweets().length - 1) ? 1 : oldestTweet++
             
             console.log("Oldest Tweet: " + oldestTweet);
         }
