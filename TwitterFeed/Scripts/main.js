@@ -73,7 +73,7 @@
             //console.log(tweetViewModel.tweets().length);
             fullQuery += "&since_id=" + newestTweetID;
 
-            console.log("Searching since ID: " + newestTweetID);
+            //console.log("Searching since ID: " + newestTweetID);
             //console.log("Query: " + fullQuery);
         }
 
@@ -86,12 +86,12 @@
                 data: { bearerToken: bearerToken, parameters: fullQuery },
                 dataType: "JSON",
                 success: function (results) {
-                    // Newest Tweet!
-                    newestTweetID = results.search_metadata.max_id;
+                    // Newest Tweet ID is recorded
+                    newestTweetID = results.search_metadata.max_id_str;
+
                     // Save a local copy either to the initial tweets or the temp newTweets
                     if (tweetViewModel.tweets().length == 0) {
                         tweets = results.statuses;
-
                         // Format the tweets now.
                         formatTweets();
                     }
@@ -182,13 +182,8 @@
                 var mediaURL;
 
                 // If the tweet contains a picture show it.
-                if (tweets[i].entities.media) {
-                    // Only allow 1 photo.
-                    for (var j = 0; j < 1; j++) {
-                        if (tweets[i].entities.media[j].type == "photo") {
-                            mediaURL = tweets[i].entities.media[j].media_url;
-                        }
-                    }
+                if (tweets[i].entities.media && tweets[i].entities.media[0].type == "photo") {
+                        mediaURL = tweets[i].entities.media[0].media_url;
                 }
 
                 // Format the tweet
@@ -201,10 +196,6 @@
                     sinceID: tweets[i].id,
                     id: "t" + (i + 1)
                 };
-                /*
-                if (tempTweet.sinceID > newestTweetID) {
-                    newestTweetID = tempTweet.sinceID;
-                }*/
 
                 // Add the tweet to the feed
                 tweetViewModel.tweets.unshift(tempTweet);
@@ -344,31 +335,36 @@
         var aboveCheck = parseInt($('#t' + oldestTweet).css('top')) < -51;
         var belowCheck = parseInt($('#t' + oldestTweet).css('top')) > parseInt($('.tweets-container').css('height'));
 
-        console.log("aboveCheck: ", aboveCheck);
-        console.log("belowCheck: ", belowCheck);
+        //console.log("aboveCheck: ", aboveCheck);
+        //console.log("belowCheck: ", belowCheck);
 
         // Check if new tweets are avaliable && the oldest tweet is out of the viewport
         if (newTweetsQueue.length > 0 && (aboveCheck || belowCheck)) {
-
+            
             var tweetInsertLoc = parseInt($('#t' + oldestTweet).css('top'));
             // Format the tweet fully
             var tempTweet = newTweetsQueue.shift();
             tempTweet.id += oldestTweet;
+
+            console.log("Add tweet from " + tempTweet.name + "to the feed.")
 
             // Splice Tweet into feed, it is removed from the front of the queue
             tweetViewModel.tweets.splice(oldestTweet - 1, 1, tempTweet);
             $('#t' + oldestTweet).css('top', tweetInsertLoc);
 
 
-            //Get the old height
+            //Get the new height
             var newHeight = parseInt($('#t' + oldestTweet).css('height')) + parseInt($('#t' + oldestTweet).css('padding-top')) + parseInt($('#t' + oldestTweet).css('padding-bottom'));
+            tweetheight[oldestTweet] = newHeight;
             //Get the old height
             var oldHeight = tweetheight[oldestTweet];
             // Calculate the difference
             var insertLocDiff = newHeight - oldHeight;
 
+            
             // Add the height difference to the total
             totalheight += insertLocDiff;
+            console.log("The new calculated total height is: " + totalheight);
 
             // Update the locations of the tweets below the newly added one 
             for (var i = 1; i <= totaltweets; i++) {
@@ -376,9 +372,11 @@
                 var tweetLoc = parseInt($('#t' + i).css('top'));
 
                 // Location of the current tweet must be at or greater than the newly added one
-                if (tweetLoc >= tweetInsertLoc) {
-                    var newLoc = tweetLoc + insertLocDiff;
-                    $('#t' + i).css('top', newLoc);
+                if (tweetLoc == tweetInsertLoc) {
+                    $('#t' + i).css('top', tweetLoc);
+                } else if (tweetLoc > tweetInsertLoc) {
+                    //var newLoc = tweetLoc + insertLocDiff;
+                   // $('#t' + i).css('top', newLoc);
                 }
             }
 
@@ -389,7 +387,7 @@
                 oldestTweet++;
             }
             
-            console.log("Oldest Tweet: " + oldestTweet);
+            console.log(tweetheight);
         }
     }
 
