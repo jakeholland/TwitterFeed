@@ -346,7 +346,7 @@
             var tempTweet = newTweetsQueue.shift();
             tempTweet.id += oldestTweet;
 
-            console.log("Add tweet from " + tempTweet.name + "to the feed.")
+            console.log("Add tweet from " + tempTweet.name + " to the feed.")
 
             // Splice Tweet into feed, it is removed from the front of the queue
             tweetViewModel.tweets.splice(oldestTweet - 1, 1, tempTweet);
