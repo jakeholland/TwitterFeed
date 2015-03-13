@@ -489,3 +489,5 @@ C:\Users\jtholla2\Documents\Github\TwitterFeed\TwitterFeed\obj\Debug\TwitterFeed
 C:\Users\jtholla2\Documents\Github\TwitterFeed\TwitterFeed\obj\Debug\TwitterFeed.dll
 C:\Users\jtholla2\Documents\Github\TwitterFeed\TwitterFeed\obj\Debug\TwitterFeed.pdb
 C:\Users\jtholla2\Documents\Github\TwitterFeed\TwitterFeed\bin\Scripts\main.js
+C:\Users\jtholla2\Documents\Github\TwitterFeed\TwitterFeed\bin\img\favicon.jpg
+C:\Users\jtholla2\Documents\Github\TwitterFeed\TwitterFeed\bin\img\wr.png

@@ -3,14 +3,17 @@
 }
 
 <!--Left Sidebar-->
-<div style="color:#F47F24; z-index:999;" class="col-md-4">
-    <h1>See What's Trending for StackOverflow</h1>
-    <h2>Tweet @@StackOverflowR or use #StackOverflow to see your tweet!</h2>
+<div style="color:#F47F24; z-index:999;" class="col-md-4 lt-sidebar">
+    <h1>What's Trending at Illinois?</h1>
+    <h2>Tweet @@edILLINOIS or use #Illini to see your tweet!</h2>
+    <div class="footer-logo">
+        <a href="http://www.education.illinois.edu"><img alt="College of Education" src="~/img/wr.png"></a>
+    </div>
 </div>
 
 <!--Right Sidebar-->
     <div data-bind="foreach: tweets" class="col-md-8 tweets-container">
-        <div class="well twitter-article" data-bind="attr: {'id': id }">
+        <div class="well twitter-article" data-bind="attr: {'id': id }, tweetElement:id">
             <div class="media">
                 <a class="pull-left" href="#">
                     <img class="media-object user-image" data-bind="attr: { src: imageURL }" />
@@ -21,7 +24,7 @@
                     <br />
                     <h3 data-bind="text: tweetBody"></h3>
                     <!-- ko if: mediaURL -->
-                    <img data-bind="attr: {src: mediaURL}" />
+                    <img class="tweet-image" data-bind="attr: {src: mediaURL}" />
                     <!-- /ko -->
                 </div>
             </div>

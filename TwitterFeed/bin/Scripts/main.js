@@ -28,6 +28,43 @@
         ])
     };
 
+    ko.bindingHandlers.tweetElement = {
+        update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+            
+            var idStr =  bindingContext.$data.id;
+            var id = parseInt(idStr.substring(1));
+
+            //Get the new height
+            var newHeight = parseInt($('#' + idStr).css('height')) + parseInt($('#' + idStr).css('padding-top')) + parseInt($('#' + idStr).css('padding-bottom'));
+
+            
+            if (!initialLoad) {
+                console.log("From height: " + tweetheight[id] + " to height: " + newHeight);
+
+                tweetheight[id] = newHeight;
+                //Get the old height
+                var oldHeight = tweetheight[id];
+                // Calculate the difference
+                var insertLocDiff = newHeight - oldHeight;
+
+                // Add the height difference to the total
+                totalheight += insertLocDiff;
+                console.log("The new calculated total height is: " + totalheight);
+
+                // Update the locations of the tweets below the newly changed one 
+                for (var i = 1; i <= totaltweets; i++) {
+                    // Where is the tweet  located?
+                    var tweetLoc = parseInt($('#t' + i).css('top'));
+
+                    if (tweetLoc > parseInt($('#' + idStr).css('top'))) {
+                        var newLoc = tweetLoc + insertLocDiff;
+                        $('#t' + i).css('top', newLoc);
+                    }
+                }
+            }
+        }
+    };
+
     // Object containing all settings
     // Defaults have been added
     var settingsObj = {
@@ -112,8 +149,7 @@
         }
     }
 
-    function getHeights() {
-        console.log("Get heights");
+    function getHeights() {       
 
         if (settingsObj.slideinitial === false) {
             sliderheight = 0;
@@ -179,10 +215,11 @@
             // If we don't already have the tweet && make a filter check
             if (languageFilter(tweets[i].text)) {
 
-                var mediaURL;
+                var mediaURL = "";
 
                 // If the tweet contains a picture show it.
                 if (tweets[i].entities.media && tweets[i].entities.media[0].type == "photo") {
+                    console.log(tweets[i].entities);
                         mediaURL = tweets[i].entities.media[0].media_url;
                 }
 
@@ -346,39 +383,37 @@
             var tempTweet = newTweetsQueue.shift();
             tempTweet.id += oldestTweet;
 
-            console.log("Add tweet from " + tempTweet.name + "to the feed.")
+            console.log("Add tweet from " + tempTweet.name + " to the feed.")
 
             // Splice Tweet into feed, it is removed from the front of the queue
             tweetViewModel.tweets.splice(oldestTweet - 1, 1, tempTweet);
             $('#t' + oldestTweet).css('top', tweetInsertLoc);
 
+            ////Get the new height
+            //var newHeight = parseInt($('#t' + oldestTweet).css('height')) + parseInt($('#t' + oldestTweet).css('padding-top')) + parseInt($('#t' + oldestTweet).css('padding-bottom'));
+            //tweetheight[oldestTweet] = newHeight;
+            ////Get the old height
+            //var oldHeight = tweetheight[oldestTweet];
+            //// Calculate the difference
+            //var insertLocDiff = newHeight - oldHeight;
 
-            //Get the new height
-            var newHeight = parseInt($('#t' + oldestTweet).css('height')) + parseInt($('#t' + oldestTweet).css('padding-top')) + parseInt($('#t' + oldestTweet).css('padding-bottom'));
-            tweetheight[oldestTweet] = newHeight;
-            //Get the old height
-            var oldHeight = tweetheight[oldestTweet];
-            // Calculate the difference
-            var insertLocDiff = newHeight - oldHeight;
+            //// Add the height difference to the total
+            //totalheight += insertLocDiff;
+            //console.log("The new calculated total height is: " + totalheight);
 
-            
-            // Add the height difference to the total
-            totalheight += insertLocDiff;
-            console.log("The new calculated total height is: " + totalheight);
+            //// Update the locations of the tweets below the newly added one 
+            //for (var i = 1; i <= totaltweets; i++) {
+            //    // Where is the tweet  located?
+            //    var tweetLoc = parseInt($('#t' + i).css('top'));
 
-            // Update the locations of the tweets below the newly added one 
-            for (var i = 1; i <= totaltweets; i++) {
-                // Where is the tweet  located?
-                var tweetLoc = parseInt($('#t' + i).css('top'));
-
-                // Location of the current tweet must be at or greater than the newly added one
-                if (tweetLoc == tweetInsertLoc) {
-                    $('#t' + i).css('top', tweetLoc);
-                } else if (tweetLoc > tweetInsertLoc) {
-                    //var newLoc = tweetLoc + insertLocDiff;
-                   // $('#t' + i).css('top', newLoc);
-                }
-            }
+            //    // Location of the current tweet must be at or greater than the newly added one
+            //    if (tweetLoc == tweetInsertLoc) {
+            //        $('#t' + i).css('top', tweetLoc);
+            //    } else if (tweetLoc > tweetInsertLoc) {
+            //        //var newLoc = tweetLoc + insertLocDiff;
+            //        // $('#t' + i).css('top', newLoc);
+            //    }
+            //}
 
             // Calculate the "new" oldest tweet
             if (oldestTweet == tweetViewModel.tweets().length - 1) {
@@ -386,15 +421,13 @@
             } else {
                 oldestTweet++;
             }
-            
-            console.log(tweetheight);
         }
     }
 
     // Apply knockout bindings
     ko.applyBindings(tweetViewModel);
-
     // Start the process of getting and animating tweets  
     // Get the settings from Parse before doing anything
     getSettings();
 });
+
