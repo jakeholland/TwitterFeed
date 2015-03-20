@@ -1,0 +1,94 @@
+﻿html, body, .tweets-container {
+    height:100%;
+}
+
+body {
+    padding-top: 2.5px;
+    background: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(0,60,125,1)), to(rgba(110,139,191,0.6)));
+    background: -webkit-linear-gradient(rgba(0,60,125,1), rgba(110,139,191,0.6));
+    background: -moz-linear-gradient(rgba(0,60,125,1), rgba(110,139,191,0.6));
+    background: -o-linear-gradient(rgba(0,60,125,1), rgba(110,139,191,0.6));
+    background: linear-gradient(rgba(0,60,125,1), rgba(110,139,191,0.6));
+    background-attachment:fixed;
+}
+
+.well {
+    color: white;
+    border: 0px;
+    background: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(244,127,36,1)), to(rgba(239,138,28,0.6)));
+    background: -webkit-linear-gradient(rgba(244,127,36,1), rgba(239,138,28,0.6));
+    background: -moz-linear-gradient(rgba(244,127,36,1), rgba(239,138,28,0.6));
+    background: -o-linear-gradient(rgba(244,127,36,1), rgba(239,138,28,0.6));
+    background: linear-gradient(rgba(244,127,36,1), rgba(239,138,28,0.6));
+}
+.navbar{
+    background: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(255,255,255,1)), to(rgba(255,255,255,0.6)));
+    background: -webkit-linear-gradient(rgba(255,255,255,1), rgba(255,255,255,0.6));
+    background: -moz-linear-gradient(rgba(255,255,255,1), rgba(255,255,255,0.6));
+    background: -o-linear-gradient(rgba(255,255,255,1), rgba(255,255,255,0.6));
+    background: linear-gradient(rgba(255,255,255,1), rgba(255,255,255,0.6));
+    border-bottom: 0px;
+}
+
+.tweets-container {
+    overflow:hidden;
+    position:relative;
+    height:100%;
+}
+
+.twitter-article {
+    position:absolute;
+    top: 0px;
+    width:90%;
+}
+.twitter-article.img {
+    max-width: 100%;
+}
+
+.user-image {
+    border-radius: 5px;
+}
+.tweet-image{
+    height:300px;
+}
+.lt-sidebar{
+    height:100%;
+    display : table;
+}
+.footer-logo {
+    display : table-row;
+    vertical-align : bottom;
+    height : 75px;
+}
+
+.logo-coe, .logo-coe a, .logo-coe a:link, .logo-coe a:visited, .logo-coe a:hover, .logo-coe a:active {
+    color: #ff7d43 !important;
+    display: inline;
+    font-family: "Avenir-Bold",Tahoma,sans-serif;
+    font-size: 24px !important;
+    font-weight: normal;
+    letter-spacing: 2px;
+    line-height: 74px !important;
+    text-transform: uppercase;
+    vertical-align: bottom;
+}
+.logo-uiuc {
+    color: #0076c0;
+    font-family: "Avenir",Tahoma,sans-serif;
+    font-size: 24px !important;
+    font-weight: normal;
+    letter-spacing: 3px;
+    line-height: 74px !important;
+    text-transform: uppercase;
+    vertical-align: bottom;
+}
+
+/* Mobile styles */
+@media (max-width: 480px) {
+    h1 {
+        font-size: 24px;
+    }
+    h2{
+        font-size: 18px;
+    }
+}
