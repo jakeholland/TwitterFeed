@@ -9,7 +9,7 @@ namespace TwitterFeed
         {
             bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css", "~/Content/bootstrap.css"));
 
-            bundles.Add(new ScriptBundle("~/Scripts/js").Include("~/Scripts/jquery-2.1.1.min.js", "~/Scripts/bootstrap.min.js", "~/Scripts/knockout-3.2.0.js", "~/Scripts/sammy-0.7.5.min.js", "~/Scripts/main.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/js").Include("~/Scripts/jquery-2.1.1.min.js", "~/Scripts/bootstrap.min.js", "~/Scripts/knockout-3.3.0.js", "~/Scripts/sammy-0.7.5.min.js", "~/Scripts/main.js"));
         }
     }
 }

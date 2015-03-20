@@ -411,9 +411,6 @@ C:\Users\jtholla2\Documents\Github\TwitterFeed\TwitterFeed\bin\Content\bootstrap
 C:\Users\jtholla2\Documents\Github\TwitterFeed\TwitterFeed\bin\Content\bootstrap.min.css
 C:\Users\jtholla2\Documents\Github\TwitterFeed\TwitterFeed\bin\Scripts\bootstrap.js
 C:\Users\jtholla2\Documents\Github\TwitterFeed\TwitterFeed\bin\Scripts\bootstrap.min.js
-C:\Users\jtholla2\Documents\Github\TwitterFeed\TwitterFeed\bin\Scripts\knockout-3.2.0.js
-C:\Users\jtholla2\Documents\Github\TwitterFeed\TwitterFeed\bin\Scripts\sammy-0.7.5.js
-C:\Users\jtholla2\Documents\Github\TwitterFeed\TwitterFeed\bin\Scripts\sammy-0.7.5.min.js
 C:\Users\jtholla2\Documents\Github\TwitterFeed\TwitterFeed\bin\Content\Site.css
 C:\Users\jtholla2\Documents\Github\TwitterFeed\TwitterFeed\bin\TwitterFeed.dll.config
 C:\Users\jtholla2\Documents\Github\TwitterFeed\TwitterFeed\bin\TwitterFeed.dll
