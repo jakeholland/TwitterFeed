@@ -48,7 +48,7 @@
         // Add the height difference to the total
         totalheight += heightDiff;
         console.log("The new calculated total height is: " + totalheight);
-     
+        
 
 
         // Set the new tweet locations
@@ -406,8 +406,6 @@
             currentlyInsertingTweet = oldestTweet;
 
             console.log("Add tweet from " + tempTweet.name + " to the feed.")
-
-           
 
             // Splice Tweet into feed, it is removed from the front of the queue
             tweetViewModel.tweets.splice(oldestTweet - 1, 1, tempTweet);

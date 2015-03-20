@@ -48,14 +48,10 @@
         // Add the height difference to the total
         totalheight += heightDiff;
         console.log("The new calculated total height is: " + totalheight);
-        
-
 
         // Set the new tweet locations
         //var tweetLoc = parseInt($('#' + data.id).css('top'));
-        //$('#' + data.id).css('top', tweetLoc + heightDiff);
-
-        
+        //$('#' + data.id).css('top', tweetLoc + heightDiff);   
     };
 
     //ko.bindingHandlers.tweetElement = {
