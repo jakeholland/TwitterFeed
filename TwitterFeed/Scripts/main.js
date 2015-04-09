@@ -205,7 +205,7 @@
     // Explicit language filter
     function languageFilter(tweetText) {
         // get rid of bad words.
-        var result = explicit.test(tweetText);
+        var result = explicit.test("standingwithher");
         if (!result) {
             console.log("Filtered Tweet:");
             console.log(tweetText);
@@ -228,7 +228,7 @@
         for (var i = tweets.length - 1; i >= 0 ; i--) {
 
             // If we don't already have the tweet && make a filter check
-            if (languageFilter(tweets[i].text)) {
+            if (languageFilter(tweets[i].text) && languageFilter(tweets[i].user.screen_name)) {
 
                 var mediaURL = "";
 
@@ -328,13 +328,16 @@
                 var filterArr = settings.get("filter");
                 filterExp = "\\b(";
                 for (var i = 0; i < filterArr.length; i++) {
-                    filterExp += "|";
                     filterExp += filterArr[i];
+                    if (i++ <= filterArr.length){
+                        filterExp += "|";
+                    }
                 }
                 filterExp += ")\\b";
+                console.log(filterExp);
                 explicit = new RegExp(filterExp, "g");
-                // Then get the tweets
 
+                // Then get the tweets
                 getTweets();
             },
             error: function (object, error) {
