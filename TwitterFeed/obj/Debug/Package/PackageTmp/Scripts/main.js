@@ -10,12 +10,14 @@
     var newestTweetID = 0;
     var bearerToken; // Auth object
     var scrollInterval, settingsInterval, updateInterval; //Update intervals
+    var currentlyInsertingTweet;
 
     var totaltweets = 0;
     var currenttweet = 1; // Start at 1
     var lasttweet = totaltweets;
     var totalheight = 0;
     var sliderheight = parseInt($('.tweets-container').css('height'));
+    var heightDiff = 0;
 
     var initialLoad = true; // Flag for start loading
 
@@ -28,42 +30,55 @@
         ])
     };
 
-    ko.bindingHandlers.tweetElement = {
-        update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
-            
-            var idStr =  bindingContext.$data.id;
-            var id = parseInt(idStr.substring(1));
+    tweetViewModel.updateSize = function (element, index, data) {
+        console.log(data);
+        // On the first one get the height diff/calc
+        var id = parseInt(data.id.substring(1));
 
-            //Get the new height
-            var newHeight = parseInt($('#' + idStr).css('height')) + parseInt($('#' + idStr).css('padding-top')) + parseInt($('#' + idStr).css('padding-bottom'));
+        var newHeight = parseInt($('#' + data.id).css('height')) + parseInt($('#' + data.id).css('padding-top')) + parseInt($('#' + data.id).css('padding-bottom'));
 
-            
-            if (!initialLoad) {
-                console.log("From height: " + tweetheight[id] + " to height: " + newHeight);
+        console.log("From height: " + tweetheight[id] + " to height: " + newHeight);
 
-                tweetheight[id] = newHeight;
-                //Get the old height
-                var oldHeight = tweetheight[id];
-                // Calculate the difference
-                var insertLocDiff = newHeight - oldHeight;
+        tweetheight[id] = newHeight;
+        //Get the old height
+        var oldHeight = tweetheight[id];
+        // Calculate the difference
+        heightDiff = newHeight - oldHeight;
 
-                // Add the height difference to the total
-                totalheight += insertLocDiff;
-                console.log("The new calculated total height is: " + totalheight);
+        // Add the height difference to the total
+        totalheight += heightDiff;
+        console.log("The new calculated total height is: " + totalheight);
 
-                // Update the locations of the tweets below the newly changed one 
-                for (var i = 1; i <= totaltweets; i++) {
-                    // Where is the tweet  located?
-                    var tweetLoc = parseInt($('#t' + i).css('top'));
-
-                    if (tweetLoc > parseInt($('#' + idStr).css('top'))) {
-                        var newLoc = tweetLoc + insertLocDiff;
-                        $('#t' + i).css('top', newLoc);
-                    }
-                }
-            }
-        }
+        // Set the new tweet locations
+        //var tweetLoc = parseInt($('#' + data.id).css('top'));
+        //$('#' + data.id).css('top', tweetLoc + heightDiff);   
     };
+
+    //ko.bindingHandlers.tweetElement = {
+    //    update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+            
+    //        var idStr =  bindingContext.$data.id;
+    //        var id = parseInt(idStr.substring(1));
+
+    //        //Get the new height
+    //        var newHeight = parseInt($('#' + idStr).css('height')) + parseInt($('#' + idStr).css('padding-top')) + parseInt($('#' + idStr).css('padding-bottom'));
+
+            
+    //        if (!initialLoad) {
+    //            console.log("From height: " + tweetheight[id] + " to height: " + newHeight);
+
+    //            tweetheight[id] = newHeight;
+    //            //Get the old height
+    //            var oldHeight = tweetheight[id];
+    //            // Calculate the difference
+    //            heightDiff = newHeight - oldHeight;
+
+    //            // Add the height difference to the total
+    //            totalheight += heightDiff;
+    //            console.log("The new calculated total height is: " + totalheight);
+    //        }
+    //    }
+    //};
 
     // Object containing all settings
     // Defaults have been added
@@ -75,7 +90,7 @@
         filterExp: '',
         maxTweets: 15,
         includeRTs: false,
-        tweetQuery: '@test'
+        tweetQuery: '@edILLINOIS'
     }
 
     // Gets the OAuth token
@@ -181,14 +196,20 @@
         if (initialLoad) {
             initialLoad = false;
 
+            console.log("a55: " + explicit.test("a55"));
+            console.log("good: " + explicit.test("good"));
+            console.log("standingwithheR: " + explicit.test("standingwithheR"));
+
             scrollInterval = setInterval(scrolltweets, settingsObj.pausetime);
-            updateInterval = setInterval(getTweets, 10000);
+            //updateInterval = setInterval(getTweets, 10000);
             settingsInterval = setInterval(getSettings, 20000);
         }
     }
 
     // Explicit language filter
     function languageFilter(tweetText) {
+
+        
         // get rid of bad words.
         var result = explicit.test(tweetText);
         if (!result) {
@@ -211,16 +232,17 @@
 
         // Format the JSON data into the KO observable start at the oldest Tweets and work forward pushing on the top of the ko
         for (var i = tweets.length - 1; i >= 0 ; i--) {
-
             // If we don't already have the tweet && make a filter check
-            if (languageFilter(tweets[i].text)) {
-
+            /*if (languageFilter(tweets[i].text) || languageFilter(tweets[i].user.screen_name)) {
+                tweets.splice(i, 1); 
+            }
+            else {*/
                 var mediaURL = "";
 
                 // If the tweet contains a picture show it.
                 if (tweets[i].entities.media && tweets[i].entities.media[0].type == "photo") {
                     console.log(tweets[i].entities);
-                        mediaURL = tweets[i].entities.media[0].media_url;
+                    mediaURL = tweets[i].entities.media[0].media_url;
                 }
 
                 // Format the tweet
@@ -243,7 +265,7 @@
                 while (tweetViewModel.tweets().length > settingsObj.maxTweets) {
                     tweetViewModel.tweets.pop();
                 }
-            }
+            
         }
 
         // Get heights for the scrolling action
@@ -254,6 +276,7 @@
     function scrolltweets() {
         // Replace the oldest tweet     
         insertNewTweet();
+
         var currentheight = 0;
         for (var i = 0; i < settingsObj.tweetshift; i++) {
             var nexttweet = currenttweet + i;
@@ -312,13 +335,20 @@
                 var filterArr = settings.get("filter");
                 filterExp = "\\b(";
                 for (var i = 0; i < filterArr.length; i++) {
-                    filterExp += "|";
                     filterExp += filterArr[i];
+                    if (i++ < filterArr.length-1){
+                        filterExp += "|";
+                    }
+                    else {
+                        
+                    }
+                    console.log(filterArr[i]);
                 }
                 filterExp += ")\\b";
-                explicit = new RegExp(filterExp, "g");
+                
+                explicit = new RegExp(filterExp);
+                console.log(explicit);
                 // Then get the tweets
-
                 getTweets();
             },
             error: function (object, error) {
@@ -379,9 +409,11 @@
         if (newTweetsQueue.length > 0 && (aboveCheck || belowCheck)) {
             
             var tweetInsertLoc = parseInt($('#t' + oldestTweet).css('top'));
+
             // Format the tweet fully
             var tempTweet = newTweetsQueue.shift();
             tempTweet.id += oldestTweet;
+            currentlyInsertingTweet = oldestTweet;
 
             console.log("Add tweet from " + tempTweet.name + " to the feed.")
 
@@ -389,32 +421,7 @@
             tweetViewModel.tweets.splice(oldestTweet - 1, 1, tempTweet);
             $('#t' + oldestTweet).css('top', tweetInsertLoc);
 
-            ////Get the new height
-            //var newHeight = parseInt($('#t' + oldestTweet).css('height')) + parseInt($('#t' + oldestTweet).css('padding-top')) + parseInt($('#t' + oldestTweet).css('padding-bottom'));
-            //tweetheight[oldestTweet] = newHeight;
-            ////Get the old height
-            //var oldHeight = tweetheight[oldestTweet];
-            //// Calculate the difference
-            //var insertLocDiff = newHeight - oldHeight;
-
-            //// Add the height difference to the total
-            //totalheight += insertLocDiff;
-            //console.log("The new calculated total height is: " + totalheight);
-
-            //// Update the locations of the tweets below the newly added one 
-            //for (var i = 1; i <= totaltweets; i++) {
-            //    // Where is the tweet  located?
-            //    var tweetLoc = parseInt($('#t' + i).css('top'));
-
-            //    // Location of the current tweet must be at or greater than the newly added one
-            //    if (tweetLoc == tweetInsertLoc) {
-            //        $('#t' + i).css('top', tweetLoc);
-            //    } else if (tweetLoc > tweetInsertLoc) {
-            //        //var newLoc = tweetLoc + insertLocDiff;
-            //        // $('#t' + i).css('top', newLoc);
-            //    }
-            //}
-
+            
             // Calculate the "new" oldest tweet
             if (oldestTweet == tweetViewModel.tweets().length - 1) {
                 oldestTweet = 1;
@@ -429,5 +436,6 @@
     // Start the process of getting and animating tweets  
     // Get the settings from Parse before doing anything
     getSettings();
+    
 });
 

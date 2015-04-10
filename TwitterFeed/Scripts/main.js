@@ -196,16 +196,22 @@
         if (initialLoad) {
             initialLoad = false;
 
+            console.log("a55: " + explicit.test("a55"));
+            console.log("good: " + explicit.test("good"));
+            console.log("standingwithheR: " + explicit.test("standingwithheR"));
+
             scrollInterval = setInterval(scrolltweets, settingsObj.pausetime);
-            updateInterval = setInterval(getTweets, 10000);
+            //updateInterval = setInterval(getTweets, 10000);
             settingsInterval = setInterval(getSettings, 20000);
         }
     }
 
     // Explicit language filter
     function languageFilter(tweetText) {
+
+        
         // get rid of bad words.
-        var result = explicit.test("standingwithher");
+        var result = explicit.test(tweetText);
         if (!result) {
             console.log("Filtered Tweet:");
             console.log(tweetText);
@@ -226,16 +232,17 @@
 
         // Format the JSON data into the KO observable start at the oldest Tweets and work forward pushing on the top of the ko
         for (var i = tweets.length - 1; i >= 0 ; i--) {
-
             // If we don't already have the tweet && make a filter check
-            if (languageFilter(tweets[i].text) && languageFilter(tweets[i].user.screen_name)) {
-
+            /*if (languageFilter(tweets[i].text) || languageFilter(tweets[i].user.screen_name)) {
+                tweets.splice(i, 1); 
+            }
+            else {*/
                 var mediaURL = "";
 
                 // If the tweet contains a picture show it.
                 if (tweets[i].entities.media && tweets[i].entities.media[0].type == "photo") {
                     console.log(tweets[i].entities);
-                        mediaURL = tweets[i].entities.media[0].media_url;
+                    mediaURL = tweets[i].entities.media[0].media_url;
                 }
 
                 // Format the tweet
@@ -258,7 +265,7 @@
                 while (tweetViewModel.tweets().length > settingsObj.maxTweets) {
                     tweetViewModel.tweets.pop();
                 }
-            }
+            
         }
 
         // Get heights for the scrolling action
@@ -329,14 +336,18 @@
                 filterExp = "\\b(";
                 for (var i = 0; i < filterArr.length; i++) {
                     filterExp += filterArr[i];
-                    if (i++ <= filterArr.length){
+                    if (i++ < filterArr.length-1){
                         filterExp += "|";
                     }
+                    else {
+                        
+                    }
+                    console.log(filterArr[i]);
                 }
                 filterExp += ")\\b";
-                console.log(filterExp);
-                explicit = new RegExp(filterExp, "g");
-
+                
+                explicit = new RegExp(filterExp);
+                console.log(explicit);
                 // Then get the tweets
                 getTweets();
             },
@@ -425,5 +436,6 @@
     // Start the process of getting and animating tweets  
     // Get the settings from Parse before doing anything
     getSettings();
+    
 });
 
