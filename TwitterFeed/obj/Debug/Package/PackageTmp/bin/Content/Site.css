@@ -1,5 +1,16 @@
-﻿html, body, .tweets-container {
-    height:100%;
+﻿@import url("//hello.myfonts.net/count/2cfa0f");
+
+@font-face {
+    font-family: 'MuseoSlab-700';
+    src: url('/case.axd/file/Theme/webfonts/MyFontsWebfontsKit/webfonts/museo-slab-3559c71da24b1df40fe4842bf888a1dc69d49d39.eot');
+    src: url('/case.axd/file/Theme/webfonts/MyFontsWebfontsKit/webfonts/museo-slab-3559c71da24b1df40fe4842bf888a1dc69d49d39.eot?#iefix') format('embedded-opentype'),url('/case.axd/file/Theme/webfonts/MyFontsWebfontsKit/webfonts/museo-slab-b17925f1177956e505705c0485a0e2c7b69d6a55.woff2') format('woff2'),url('/case.axd/file/Theme/webfonts/MyFontsWebfontsKit/webfonts/museo-slab-743168a6b03a672c3d71008003dd64649d09f365.woff') format('woff'),url('/case.axd/file/Theme/webfonts/MyFontsWebfontsKit/webfonts/museo-slab-c6203c76b555ebe9e15aaac4c7d4d2e44043690d.ttf') format('truetype');
+}
+
+html, body, .tweets-container {
+    font-family: 'MuseoSlab-700';
+    height: 100%;
+    cursor: none;
+    z-index:-999;
 }
 
 body {
@@ -52,7 +63,6 @@ body {
     height:300px;
 }
 .lt-sidebar{
-    height:100%;
     display : table;
 }
 .footer-logo {
@@ -60,6 +70,7 @@ body {
     vertical-align : bottom;
     height : 75px;
 }
+
 
 .logo-coe, .logo-coe a, .logo-coe a:link, .logo-coe a:visited, .logo-coe a:hover, .logo-coe a:active {
     color: #ff7d43 !important;
@@ -84,11 +95,18 @@ body {
 }
 
 /* Mobile styles */
-@media (max-width: 480px) {
-    h1 {
-        font-size: 24px;
+@media (max-width: 481px) {
+    .twitter-article {
+        position:absolute;
+        top: 0px;
+        width:90%;
     }
-    h2{
-        font-size: 18px;
+    
+    .media-body h1, .media-body h2, .media-body h3, .media-body h4, .media-body h5 {
+        font-size: 1em;
+    }
+    .lt-sidebar h1, .lt-sidebar h2, .lt-sidebar h3, .lt-sidebar h4, .lt-sidebar h5 {
+        font-size: 1.1em;
+
     }
 }

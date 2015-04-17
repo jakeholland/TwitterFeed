@@ -195,14 +195,14 @@
         // Start the scroll loop the first time you get tweets.
         if (initialLoad) {
             initialLoad = false;
-
-            console.log("a55: " + explicit.test("a55"));
+        
+            console.log("ass: " + explicit.test("ass"));
             console.log("good: " + explicit.test("good"));
             console.log("standingwithheR: " + explicit.test("standingwithheR"));
 
             scrollInterval = setInterval(scrolltweets, settingsObj.pausetime);
-            //updateInterval = setInterval(getTweets, 10000);
-            settingsInterval = setInterval(getSettings, 20000);
+            //updateInterval = setInterval(getTweets, 10000); Not working fully... 
+            //settingsInterval = setInterval(getSettings, 20000);
         }
     }
 
@@ -333,16 +333,13 @@
                 settingsObj.tweetQuery = settings.get("query");
 
                 var filterArr = settings.get("filter");
+                console.log(filterArr);
                 filterExp = "\\b(";
                 for (var i = 0; i < filterArr.length; i++) {
                     filterExp += filterArr[i];
-                    if (i++ < filterArr.length-1){
+                    if (i < filterArr.length-1){
                         filterExp += "|";
                     }
-                    else {
-                        
-                    }
-                    console.log(filterArr[i]);
                 }
                 filterExp += ")\\b";
                 
