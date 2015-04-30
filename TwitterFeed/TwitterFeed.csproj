@@ -410,6 +410,10 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <Content Include="fonts\LiberationSans-Bold.ttf" />
+    <Content Include="fonts\LiberationSans-BoldItalic.ttf" />
+    <Content Include="fonts\LiberationSans-Italic.ttf" />
+    <Content Include="fonts\LiberationSans-Regular.ttf" />
     <None Include="Properties\PublishProfiles\twitterfeed.jacobholland.net - Web Deploy.pubxml" />
     <Content Include="img\favicon.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
