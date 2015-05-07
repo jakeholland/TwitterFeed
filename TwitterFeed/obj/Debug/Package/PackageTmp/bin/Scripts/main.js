@@ -25,19 +25,20 @@
 
     // KO model
     var tweetViewModel = {
+        title: ko.observable(""),
+        message: ko.observable(""),
         tweets: ko.observableArray([
             // { tweetBody: "", handle: "", name: "", imageURL: "" } << Format
         ])
     };
 
     tweetViewModel.updateSize = function (element, index, data) {
-        console.log(data);
         // On the first one get the height diff/calc
         var id = parseInt(data.id.substring(1));
 
         var newHeight = parseInt($('#' + data.id).css('height')) + parseInt($('#' + data.id).css('padding-top')) + parseInt($('#' + data.id).css('padding-bottom'));
 
-        console.log("From height: " + tweetheight[id] + " to height: " + newHeight);
+        //console.log("From height: " + tweetheight[id] + " to height: " + newHeight);
 
         tweetheight[id] = newHeight;
         //Get the old height
@@ -47,38 +48,12 @@
 
         // Add the height difference to the total
         totalheight += heightDiff;
-        console.log("The new calculated total height is: " + totalheight);
+        //console.log("The new calculated total height is: " + totalheight);
 
         // Set the new tweet locations
         //var tweetLoc = parseInt($('#' + data.id).css('top'));
         //$('#' + data.id).css('top', tweetLoc + heightDiff);   
     };
-
-    //ko.bindingHandlers.tweetElement = {
-    //    update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
-            
-    //        var idStr =  bindingContext.$data.id;
-    //        var id = parseInt(idStr.substring(1));
-
-    //        //Get the new height
-    //        var newHeight = parseInt($('#' + idStr).css('height')) + parseInt($('#' + idStr).css('padding-top')) + parseInt($('#' + idStr).css('padding-bottom'));
-
-            
-    //        if (!initialLoad) {
-    //            console.log("From height: " + tweetheight[id] + " to height: " + newHeight);
-
-    //            tweetheight[id] = newHeight;
-    //            //Get the old height
-    //            var oldHeight = tweetheight[id];
-    //            // Calculate the difference
-    //            heightDiff = newHeight - oldHeight;
-
-    //            // Add the height difference to the total
-    //            totalheight += heightDiff;
-    //            console.log("The new calculated total height is: " + totalheight);
-    //        }
-    //    }
-    //};
 
     // Object containing all settings
     // Defaults have been added
@@ -104,7 +79,7 @@
                 bearerToken = results;
             },
             error: function (error) {
-                alert(error.status + " and " + error.statusText);
+                //alert(error.status + " and " + error.statusText);
             }
         });
     }
@@ -153,7 +128,7 @@
                     }
                 },
                 error: function (error) {
-                    alert(error.status + " and " + error.statusText);
+                    //alert(error.status + " and " + error.statusText);
                 }
             });
         }
@@ -195,10 +170,6 @@
         // Start the scroll loop the first time you get tweets.
         if (initialLoad) {
             initialLoad = false;
-        
-            console.log("ass: " + explicit.test("ass"));
-            console.log("good: " + explicit.test("good"));
-            console.log("standingwithheR: " + explicit.test("standingwithheR"));
 
             scrollInterval = setInterval(scrolltweets, settingsObj.pausetime);
             //updateInterval = setInterval(getTweets, 10000); Not working fully... 
@@ -213,8 +184,8 @@
         // get rid of bad words.
         var result = explicit.test(tweetText);
         if (!result) {
-            console.log("Filtered Tweet:");
-            console.log(tweetText);
+            //console.log("Filtered Tweet:");
+            //console.log(tweetText);
         }
         return result;
     }
@@ -241,13 +212,14 @@
 
                 // If the tweet contains a picture show it.
                 if (tweets[i].entities.media && tweets[i].entities.media[0].type == "photo") {
-                    console.log(tweets[i].entities);
+                    //console.log(tweets[i].entities);
                     mediaURL = tweets[i].entities.media[0].media_url;
                 }
 
-                // Format the tweet
+            // Format the tweet
+            // Remove links and make sure & are formattted properly.
                 var tempTweet = {
-                    tweetBody: tweets[i].text,
+                    tweetBody: tweets[i].text.replace(/\bhttp\S+/ig, "").replace(/&amp;/ig, "&"),
                     handle: "@" + tweets[i].user.screen_name,
                     name: tweets[i].user.name,
                     imageURL: tweets[i].user.profile_image_url,
@@ -322,8 +294,9 @@
         query.get("EJlZOI6Lhu", {
             success: function (settings) {
                 // The object was retrieved successfully.
+                tweetViewModel.title(settings.get("title"));
+                tweetViewModel.message(settings.get("message"));
                 totaltweets = settings.get("maxTweets");
-                //console.log(settings.get("maxTweets"));
                 settingsObj.includeRTs = settings.get("includeRT");
 
                 if (settingsObj.tweetQuery != settings.get("query")) {
@@ -333,7 +306,6 @@
                 settingsObj.tweetQuery = settings.get("query");
 
                 var filterArr = settings.get("filter");
-                console.log(filterArr);
                 filterExp = "\\b(";
                 for (var i = 0; i < filterArr.length; i++) {
                     filterExp += filterArr[i];
@@ -344,7 +316,7 @@
                 filterExp += ")\\b";
                 
                 explicit = new RegExp(filterExp);
-                console.log(explicit);
+                //console.log(explicit);
                 // Then get the tweets
                 getTweets();
             },
@@ -385,7 +357,7 @@
                     id: "t"
                 };
 
-                console.log(tempTweet);
+                //console.log(tempTweet);
                 // Push the new tweets to the "queue"
                 // They will be added in as they can
                 // Need to add the ID before it gets added.

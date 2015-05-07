@@ -488,3 +488,11 @@ C:\Users\jtholla2\Documents\Github\TwitterFeed\TwitterFeed\obj\Debug\TwitterFeed
 C:\Users\jtholla2\Documents\Github\TwitterFeed\TwitterFeed\bin\Scripts\main.js
 C:\Users\jtholla2\Documents\Github\TwitterFeed\TwitterFeed\bin\img\favicon.jpg
 C:\Users\jtholla2\Documents\Github\TwitterFeed\TwitterFeed\bin\img\wr.png
+C:\Users\jtholla2\Documents\Github\TwitterFeed\TwitterFeed\bin\fonts\LiberationSans-Bold.ttf
+C:\Users\jtholla2\Documents\Github\TwitterFeed\TwitterFeed\bin\fonts\LiberationSans-BoldItalic.ttf
+C:\Users\jtholla2\Documents\Github\TwitterFeed\TwitterFeed\bin\fonts\LiberationSans-Italic.ttf
+C:\Users\jtholla2\Documents\Github\TwitterFeed\TwitterFeed\bin\fonts\LiberationSans-Regular.ttf
+C:\Users\jtholla2\Documents\Github\TwitterFeed\TwitterFeed\bin\fonts\LiberationSans-Bold.eot
+C:\Users\jtholla2\Documents\Github\TwitterFeed\TwitterFeed\bin\fonts\LiberationSans-BoldItalic.eot
+C:\Users\jtholla2\Documents\Github\TwitterFeed\TwitterFeed\bin\fonts\LiberationSans-Italic.eot
+C:\Users\jtholla2\Documents\Github\TwitterFeed\TwitterFeed\bin\fonts\LiberationSans-Regular.eot

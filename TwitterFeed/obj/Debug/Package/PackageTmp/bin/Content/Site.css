@@ -1,13 +1,47 @@
-﻿@import url("//hello.myfonts.net/count/2cfa0f");
-
+﻿@font-face {
+    font-family: LiberationSans;
+    src: url(/fonts/LiberationSans-Regular.ttf);
+}
 @font-face {
-    font-family: 'MuseoSlab-700';
-    src: url('/case.axd/file/Theme/webfonts/MyFontsWebfontsKit/webfonts/museo-slab-3559c71da24b1df40fe4842bf888a1dc69d49d39.eot');
-    src: url('/case.axd/file/Theme/webfonts/MyFontsWebfontsKit/webfonts/museo-slab-3559c71da24b1df40fe4842bf888a1dc69d49d39.eot?#iefix') format('embedded-opentype'),url('/case.axd/file/Theme/webfonts/MyFontsWebfontsKit/webfonts/museo-slab-b17925f1177956e505705c0485a0e2c7b69d6a55.woff2') format('woff2'),url('/case.axd/file/Theme/webfonts/MyFontsWebfontsKit/webfonts/museo-slab-743168a6b03a672c3d71008003dd64649d09f365.woff') format('woff'),url('/case.axd/file/Theme/webfonts/MyFontsWebfontsKit/webfonts/museo-slab-c6203c76b555ebe9e15aaac4c7d4d2e44043690d.ttf') format('truetype');
+    font-family: LiberationSans;
+    src: url(/fonts/LiberationSans-Regular.eot);
+}
+/*-----------------------------------------------*/
+@font-face {
+    font-family: LiberationSans;
+    src: url(/fonts/LiberationSans-Bold.ttf);
+    font-weight: bold;
+}
+@font-face {
+    font-family: LiberationSans;
+    src: url(/fonts/LiberationSans-Bold.eot);
+    font-weight: bold;
+}
+/*-----------------------------------------------*/
+@font-face {
+    font-family: LiberationSans;
+    src: url(/fonts/LiberationSans-Italic.ttf);
+    font-weight: bold;
+}
+@font-face {
+    font-family: LiberationSans;
+    src: url(/fonts/LiberationSans-Italic.eot);
+    font-weight: bold;
+}
+/*-----------------------------------------------*/
+@font-face {
+    font-family: LiberationSans;
+    src: url(/fonts/LiberationSans-ItalicBold.ttf);
+    font-weight: bold;
+}
+@font-face {
+    font-family: LiberationSans;
+    src: url(/fonts/LiberationSans-ItalicBold.eot);
+    font-weight: bold;
 }
 
 html, body, .tweets-container {
-    font-family: 'MuseoSlab-700';
+    font-family: 'LiberationSans';
     height: 100%;
     cursor: none;
     z-index:-999;
@@ -51,6 +85,8 @@ body {
     position:absolute;
     top: 0px;
     width:90%;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 .twitter-article.img {
     max-width: 100%;
@@ -65,34 +101,6 @@ body {
 .lt-sidebar{
     display : table;
 }
-.footer-logo {
-    display : table-row;
-    vertical-align : bottom;
-    height : 75px;
-}
-
-
-.logo-coe, .logo-coe a, .logo-coe a:link, .logo-coe a:visited, .logo-coe a:hover, .logo-coe a:active {
-    color: #ff7d43 !important;
-    display: inline;
-    font-family: "Avenir-Bold",Tahoma,sans-serif;
-    font-size: 24px !important;
-    font-weight: normal;
-    letter-spacing: 2px;
-    line-height: 74px !important;
-    text-transform: uppercase;
-    vertical-align: bottom;
-}
-.logo-uiuc {
-    color: #0076c0;
-    font-family: "Avenir",Tahoma,sans-serif;
-    font-size: 24px !important;
-    font-weight: normal;
-    letter-spacing: 3px;
-    line-height: 74px !important;
-    text-transform: uppercase;
-    vertical-align: bottom;
-}
 
 /* Mobile styles */
 @media (max-width: 481px) {
@@ -100,6 +108,8 @@ body {
         position:absolute;
         top: 0px;
         width:90%;
+        padding-top: 1px;
+    padding-bottom: 1px;
     }
     
     .media-body h1, .media-body h2, .media-body h3, .media-body h4, .media-body h5 {

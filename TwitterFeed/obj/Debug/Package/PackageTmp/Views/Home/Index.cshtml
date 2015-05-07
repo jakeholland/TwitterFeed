@@ -4,8 +4,8 @@
 
 <!--Left Sidebar-->
 <div style="color:#F47F24;" class="col-md-4 lt-sidebar" id="lt-header">
-    <h1>What's Trending at Illinois?</h1>
-    <h2>Tweet @@edILLINOIS to see your tweet!</h2>
+    <h1 data-bind="text:title"></h1>
+    <h2 data-bind="text:message"></h2>
     <!---<div class="footer-logo">
         <a href="http://www.education.illinois.edu"><img alt="College of Education" src="~/img/wr.png"></a>
     </div>
@@ -22,7 +22,6 @@
             <div class="media-body">
                 <h2 class="media-heading" data-bind="text: name"></h2>
                 <h4 class="media-heading" style="color: #003C7D;" data-bind="text: handle"></h4>
-                <br />
                 <h3 data-bind="text: tweetBody"></h3>
                 <!-- ko if: mediaURL -->
                 <img class="tweet-image" data-bind="attr: {src: mediaURL}" />

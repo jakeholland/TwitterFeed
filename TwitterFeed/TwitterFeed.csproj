@@ -410,10 +410,30 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
-    <Content Include="fonts\LiberationSans-Bold.ttf" />
-    <Content Include="fonts\LiberationSans-BoldItalic.ttf" />
-    <Content Include="fonts\LiberationSans-Italic.ttf" />
-    <Content Include="fonts\LiberationSans-Regular.ttf" />
+    <Content Include="fonts\LiberationSans-Bold.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fonts\LiberationSans-BoldItalic.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fonts\LiberationSans-Italic.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fonts\LiberationSans-Regular.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fonts\LiberationSans-Bold.eot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fonts\LiberationSans-BoldItalic.eot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fonts\LiberationSans-Italic.eot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fonts\LiberationSans-Regular.eot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Properties\PublishProfiles\twitterfeed.jacobholland.net - Web Deploy.pubxml" />
     <Content Include="img\favicon.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

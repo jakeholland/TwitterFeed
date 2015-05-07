@@ -14,10 +14,6 @@ namespace TwitterFeed.Controllers
 {
     public class TwitterController : Controller
     {
-        //Oauth Keys, should hide in release.
-        string oauthtoken = "2900646069-UVc42zB3etsgNi1g0HqSlBPWglDxmKmcaxPS3UE";
-        string oauthtokensecret = "i3C6bQeKyrBi3ooHNEFo0zoYJiILbDOpDGFJbMSEiUcMq"; // Need to hide these eventually !!!!!!!
-
         private const string ApiBaseUrl = "https://api.twitter.com";
         #region Authentication
 

@@ -1,14 +1,44 @@
 ﻿@font-face {
     font-family: LiberationSans;
-    src: url(LiberationSans-Regular.ttf);
+    src: url(/fonts/LiberationSans-Regular.ttf);
 }
-
 @font-face {
     font-family: LiberationSans;
-    src: url(LiberationSans-Bold.ttf);
+    src: url(/fonts/LiberationSans-Regular.eot);
+}
+/*-----------------------------------------------*/
+@font-face {
+    font-family: LiberationSans;
+    src: url(/fonts/LiberationSans-Bold.ttf);
     font-weight: bold;
 }
-
+@font-face {
+    font-family: LiberationSans;
+    src: url(/fonts/LiberationSans-Bold.eot);
+    font-weight: bold;
+}
+/*-----------------------------------------------*/
+@font-face {
+    font-family: LiberationSans;
+    src: url(/fonts/LiberationSans-Italic.ttf);
+    font-weight: bold;
+}
+@font-face {
+    font-family: LiberationSans;
+    src: url(/fonts/LiberationSans-Italic.eot);
+    font-weight: bold;
+}
+/*-----------------------------------------------*/
+@font-face {
+    font-family: LiberationSans;
+    src: url(/fonts/LiberationSans-ItalicBold.ttf);
+    font-weight: bold;
+}
+@font-face {
+    font-family: LiberationSans;
+    src: url(/fonts/LiberationSans-ItalicBold.eot);
+    font-weight: bold;
+}
 
 html, body, .tweets-container {
     font-family: 'LiberationSans';
@@ -55,6 +85,8 @@ body {
     position:absolute;
     top: 0px;
     width:90%;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 .twitter-article.img {
     max-width: 100%;
@@ -76,6 +108,8 @@ body {
         position:absolute;
         top: 0px;
         width:90%;
+        padding-top: 1px;
+    padding-bottom: 1px;
     }
     
     .media-body h1, .media-body h2, .media-body h3, .media-body h4, .media-body h5 {
